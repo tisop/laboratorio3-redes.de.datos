@@ -1,0 +1,58 @@
+\mode<presentation>
+
+% Requirement
+\RequirePackage{tikz}
+
+% make it compress to show the navigation bars
+\beamer@compresstrue
+
+% Settings
+\usecolortheme{udp}
+\useoutertheme[subsection=false]{udpsmoothinfo}
+\useinnertheme{udp}
+
+% my package with several short hands
+% declare after all the other color declarations
+\RequirePackage{beamertools}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{blocks}[rounded][shadow=true]  
+
+% define the class name
+\RequirePackage{etoolbox}
+\def\@coursecode{}
+\def\@coursename{}
+\newcommand{\course}[2][]{\ifstrempty{#1}{\def\@coursecode{}}{\def\@coursecode{#1}}\def\@coursename{#2}}
+\newcommand{\insertcoursecode}{\@coursecode}
+\newcommand{\insertcoursename}{\@coursename}
+
+%fix the title page navigation bar
+\let\oldtitlepage\titlepage
+\renewcommand{\titlepage}{%
+  \addtocounter{framenumber}{-1}%ensure that title page has 0 number
+  \oldtitlepage%
+}
+
+% Patches beamer so that "subsections numbered 0" show their slide entries.
+% Solution: http://tex.stackexchange.com/questions/2072/beamer-navigation-circles-without-subsections
+\patchcmd{\slideentry}{\ifnum#2>0}{\ifnum#1>0}{}{\@error{unable to patch}}%  require section number to be strictly positive
+
+% Fonts profesionales (nice math mode)
+\usefonttheme{professionalfonts}
+
+% lets fix the footnote
+% http://tex.stackexchange.com/a/192652/7561
+\setbeamertemplate{footnote}{%
+  \tiny%
+  \parindent 1em\noindent%
+  \raggedright
+  \hbox to 1em{\hfil\insertfootnotemark}\insertfootnotetext\par% este controla el indent de la footnote
+}%
+\setlength\footnotesep{0pt}
+
+% Establece los colores
+% http://tex.stackexchange.com/a/13424/7561
+\hypersetup{colorlinks,linkcolor=,urlcolor=orange!80!black}
+
+\mode<all>
+

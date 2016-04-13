@@ -1,0 +1,78 @@
+\ProvidesPackageRCS $Header: beamerinnerthemeudp.sty,v 1.0 2014/03/07 adin$
+
+
+\DeclareOptionBeamer{shadow}[true]{\def\beamer@themerounded@shadow{#1}}
+\ExecuteOptionsBeamer{shadow=false}
+\ProcessOptionsBeamer
+
+\mode<presentation>
+
+% Items
+\setbeamertemplate{blocks}[rounded][shadow=\beamer@themerounded@shadow]
+\setbeamertemplate{items}[square]
+\setbeamertemplate{itemize subitem}[triangle]
+\setbeamertemplate{itemize subsubitem}[circle]
+\setbeamertemplate{sections/subsections in toc}[square]
+
+\setbeamertemplate{background}{
+  \begin{tikzpicture}
+    \useasboundingbox (0,0) rectangle(\the\paperwidth,\the\paperheight);
+    \fill[color=frontColor] (0,4) rectangle (\the\paperwidth,\the\paperheight);
+    \fill[color=secondColor] (0,0) rectangle(2.95,3.9);
+    \fill[color=firstColor!80!white] (3.05,0) rectangle(\the\paperwidth,3.9);
+    \ifnum\thepage>1\relax%
+      \fill[white,opacity=1] (0,0) rectangle(\the\paperwidth,\the\paperheight);
+    \fi
+  \end{tikzpicture}
+}
+
+% Title page
+\defbeamertemplate*{title page}{udp}[1][]
+{%
+  %do the title page
+  \vspace*{-15pt}% move the logo up and to the right
+  \begin{minipage}[r]{1.05\linewidth}%
+    \begin{flushright}
+      \resizebox{4cm}{!}{\@logoholder[white]}
+    \end{flushright}
+  \end{minipage}%
+%  \vskip0.5cm%
+  \vfill
+%  \fbox{%
+  \begin{minipage}[c][2.5cm][c]{\linewidth}%
+    \begin{beamercolorbox}[wd=\the\paperwidth,sep=8pt,#1]{title page header}
+      \centering
+      \usebeamerfont{title}\inserttitle\par%
+      \ifx\insertsubtitle\@empty%
+      \else%
+        \vskip0.25em%
+        {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+      \fi%   
+    \end{beamercolorbox}%
+  \end{minipage}
+%  }
+  \vskip0.8cm%
+%  \fbox{%
+  \begin{minipage}[c][3.5cm][c]{\paperwidth}
+    \vfill
+    \begin{beamercolorbox}[wd=\paperwidth,leftskip=2.5cm,#1]{author}
+      \usebeamerfont{author}\insertauthor%
+    \end{beamercolorbox}
+     \vskip0.5cm%
+    \begin{beamercolorbox}[wd=\the\paperwidth,leftskip=2.5cm,#1]{date}
+      \usebeamerfont{author}\insertcoursename\ifdefempty{\@coursecode}{}{\ (\insertcoursecode)}\\
+      \usebeamerfont{author}\insertdate
+    \end{beamercolorbox}
+    \vfil
+  \end{minipage}
+%  }
+%  \vfill
+}
+%lets set it
+\setbeamertemplate{title page}[udp][colsep=-4bp,rounded=true,shadow=\beamer@themerounded@shadow]
+
+\setbeamertemplate{part page}[default][colsep=-4bp,rounded=true,shadow=\beamer@themerounded@shadow]
+
+
+\mode
+<all>

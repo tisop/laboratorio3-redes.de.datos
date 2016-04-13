@@ -1,0 +1,64 @@
+\mode<presentation>
+
+\RequirePackage{udp}
+% Define my colors
+%\definecolor{frontColor}{RGB}{119,95,85}%MedianBrown
+%\definecolor{firstColor}{RGB}{148,182,210}%MedianLightBlue
+%\definecolor{secondColor}{RGB}{221,128,71}%MedianOrange
+
+%\definecolor{MedianLightOrange}{RGB}{216,178,92}
+%\definecolor{MedianUltraLightOrange}{RGB}{245,236,215}
+\colorlet{frontColor}{grayudp}
+\colorlet{firstColor}{grayudp}
+\colorlet{secondColor}{redudp}
+
+% Settings
+\setbeamercolor*{title page header}{fg=white}
+\setbeamercolor*{author}{fg=white}
+\setbeamercolor*{date}{fg=white}
+
+
+% Items
+\setbeamercolor{structure}{fg=secondColor}
+\setbeamercolor*{item}{parent=structure}
+\setbeamercolor*{itemize item}{parent=item}
+\setbeamercolor*{itemize subitem}{fg=secondColor!80!white}
+\setbeamercolor*{itemize subsubitem}{fg=secondColor!60!white}
+
+
+% navigation bar
+\setbeamercolor*{section in head/foot}{fg=white,bg=firstColor}
+\setbeamercolor*{subsection in head/foot}{fg=white,bg=firstColor}
+\setbeamercolor*{mini frame}{fg=secondColor,bg=white}
+\setbeamercolor{frametitle}{fg=white,bg=firstColor!80}
+\setbeamercolor{square}{bg=secondColor,fg=secondColor}%
+
+% footer
+\setbeamercolor{date in head/foot}{fg=grayudp}
+\setbeamercolor{author in head/foot}{fg=grayudp}
+
+% blocks
+\setbeamercolor{example text}{fg=grayudp!50}
+
+\setbeamercolor{structure}{fg=secondColor}
+\setbeamercolor{block title}{use=structure,fg=white,bg=structure.fg!75!black}
+\setbeamercolor{block title alerted}{use=alerted text,fg=white,bg=alerted text.fg!75!black}
+\setbeamercolor{block title example}{use=example text,fg=white,bg=example text.fg!75!black}
+
+\setbeamercolor{block body}{parent=normal text,use=block title,bg=block title.bg!10!bg}
+\setbeamercolor{block body alerted}{parent=normal text,use=block title alerted,bg=block title alerted.bg!10!bg}
+\setbeamercolor{block body example}{parent=normal text,use=block title example,bg=white}
+
+% initialize the colors
+\usebeamercolor{block title}
+\usebeamercolor{block title example}
+
+
+%% Fonts
+\setbeamerfont{section page}{size=\LARGE}
+\setbeamerfont{title}{size=\Huge}
+\setbeamerfont{author}{size=\large}
+\setbeamerfont{date}{size=\large}
+
+\mode
+<all>

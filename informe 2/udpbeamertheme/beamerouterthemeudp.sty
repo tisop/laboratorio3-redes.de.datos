@@ -1,0 +1,82 @@
+% UDP Outher style based on Smoothbars (http://mirrors.ctan.org/macros/latex/contrib/beamer/base/themes/outer/beamerouterthemesmoothbars.sty)
+\ProvidesPackageRCS $Header: beamerouterthemeudp.sty,v 1.0 2014/03/07 adin$
+
+
+\newif\ifbeamer@sb@subsection
+
+\DeclareOptionBeamer{subsection}[true]{\csname beamer@sb@subsection#1\endcsname}
+\ExecuteOptionsBeamer{subsection=true}
+\ProcessOptionsBeamer
+
+\mode<presentation>
+
+\setbeamercolor{frametitle}{parent=palette primary}
+\setbeamercolor{subsection in head/foot}{parent=palette secondary}
+\setbeamercolor{section in head/foot}{parent=palette quaternary}
+
+
+\beamer@compresstrue
+
+\AtBeginDocument{
+  {
+    \usebeamerfont*{headline}
+    \colorlet{global.bg}{bg}
+    \usebeamercolor{subsection in head/foot}
+    \usebeamercolor{section in head/foot}
+    \usebeamercolor{frametitle}
+  }
+}
+
+% New Head
+\defbeamertemplate*{headline}{udp}
+{%
+\leavevmode
+\ifnum\insertframenumber>0\relax%remove it for the title page
+\begin{beamercolorbox}[wd=\the\paperwidth,ht=0.6cm]{section in head/foot}
+  \begin{tikzpicture}
+    \useasboundingbox[fill=white](0,0) rectangle(\the\paperwidth,0.6);
+    \fill[secondColor] (0,0) rectangle(0.3,0.6);
+    \fill[firstColor] (0.35,0) rectangle(\the\paperwidth,0.6);
+    \node[anchor= west, white] at (0.3,0.3){\insertnavigation{0.85\paperwidth}};%
+  \end{tikzpicture}
+\end{beamercolorbox}
+\fi
+}%
+
+
+\defbeamertemplate*{frametitle}{udp}
+{%
+\vskip-1pt%skip after the begginning of the slide
+  \begin{beamercolorbox}[wd=\paperwidth,ht=1.2cm]{frametitle} 
+  \begin{tikzpicture}
+  \useasboundingbox[fill=white](0,0) rectangle(\the\paperwidth,0.6);
+  \fill[secondColor] (0,0) rectangle(0.3,1);
+  \fill[firstColor] (0.35,0) rectangle(\the\paperwidth,0.6);
+%   \ifx\insertframesubtitle\@empty%
+      {\node[anchor=west, white,font=\large] at (0.4,0.25){\insertframetitle};}
+%      \else%
+%      {\node[anchor= west, white,font=\large] at (0.4,0.81){\insertframetitle};%
+%       \node[anchor= west, white,font=\small] at (0.4,0.41){\insertframesubtitle};}%
+%      \fi
+  \end{tikzpicture}
+  \end{beamercolorbox}
+}
+
+\setbeamertemplate{footline}
+{%
+  \vskip-5pt
+  \leavevmode%
+  \ifnum\insertframenumber>0\relax%remove it for the title page
+  \hbox{%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex]{author in head/foot}%
+    \hspace*{2ex}\insertcoursecode
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+%    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+    \insertframenumber{}\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \fi%
+}
+  
+\mode
+<all>

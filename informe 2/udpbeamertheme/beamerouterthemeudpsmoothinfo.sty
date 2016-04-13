@@ -1,0 +1,162 @@
+% UDP Outher style based on Smoothbars (http://mirrors.ctan.org/macros/latex/contrib/beamer/base/themes/outer/beamerouterthemesmoothbars.sty)
+\ProvidesPackageRCS $Header: beamerouterthemeudpsmoothinfo.sty,v 1.0 2014/12/12 adin$
+
+
+\newif\ifbeamer@sb@subsection
+
+\DeclareOptionBeamer{subsection}[true]{\csname beamer@sb@subsection#1\endcsname}
+\ExecuteOptionsBeamer{subsection=true}
+\ProcessOptionsBeamer
+
+\mode<presentation>
+
+\setbeamercolor{frametitle}{parent=palette primary}
+\setbeamercolor{subsection in head/foot}{parent=palette secondary}
+\setbeamercolor{section in head/foot}{parent=palette quaternary}
+
+
+\beamer@compresstrue
+
+\AtBeginDocument{
+  {
+    \usebeamerfont*{headline}
+    \colorlet{global.bg}{bg}
+    \usebeamercolor{subsection in head/foot}
+    \usebeamercolor{section in head/foot}
+    \usebeamercolor{frametitle}
+    \pgfdeclareverticalshading{beamer@barshade}{\the\paperwidth}{%
+          color(0ex)=(global.bg);%
+          color(1ex)=(section in head/foot.bg);%
+          color(5ex)=(section in head/foot.bg)%
+    }
+  }
+}
+
+\setbeamertemplate{footline}
+{%
+  \vskip-5pt
+  \leavevmode%
+  \ifnum\insertframenumber>0\relax%remove it for the title page
+  \hbox{%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex]{author in head/foot}%
+    \hspace*{2ex}\insertcoursecode
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+%    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+    \insertframenumber{}\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \fi%
+}
+
+% changes the behavior of smoothbars to put the section and the navigation side by side (Smoothbars meets infolines)
+% (http://tex.stackexchange.com/q/112539)
+\def\insertminiframescurrentsection{%
+  \def\sectionentry##1##2##3##4##5{}
+  \def\slideentry##1##2##3##4##5##6{%
+    %section number, subsection number, slide number, first/last frame, page number, part number
+    \ifnum##6=\c@part\ifnum##1=\c@section\ifnum##2>0\ifnum##3>0%
+      \advance\beamer@xpos by1\relax%
+    \hbox to 0pt{%
+      \beamer@tempdim=-\beamer@vboxoffset%
+      \advance\beamer@tempdim by-\beamer@boxsize%
+      \multiply\beamer@tempdim by\beamer@ypos%
+      \raise\beamer@tempdim\hbox{%
+        \beamer@tempdim=\beamer@boxsize%
+        \multiply\beamer@tempdim by\beamer@xpos%
+        \advance\beamer@tempdim by -\beamer@boxsize%
+        \advance\beamer@tempdim by 1pt%
+        \kern\beamer@tempdim
+        \global\beamer@section@min@dim\beamer@tempdim
+        \hbox{\beamer@link(##4){%
+            \usebeamerfont{mini frame}%
+            \ifnum\c@section=##1%
+              \ifnum\c@subsection=##2%
+                \usebeamercolor[fg]{mini frame}%
+                \ifnum\c@subsectionslide=##3%
+                  \usebeamertemplate{mini frame}%\beamer@minislidehilight%
+                \else%
+                  \usebeamertemplate{mini frame in current subsection}%\beamer@minisliderowhilight%
+                \fi%
+              \else%
+                \usebeamercolor{mini frame}%
+                %\color{fg!50!bg}%
+                \usebeamertemplate{mini frame in other subsection}%\beamer@minislide%
+              \fi%
+            \else%
+              \usebeamercolor{mini frame}%
+              %\color{fg!50!bg}%
+              \usebeamertemplate{mini frame in other subsection}%\beamer@minislide%
+            \fi%
+          }}}\hskip-10cm plus 1fil%
+    }\fi\fi\fi%
+   \ignorespaces
+    }
+  \vbox{{%
+    \usebeamerfont{section in head/foot}\usebeamercolor[fg]{section in head/foot}%
+    \beamer@xpos=0\relax%
+    \beamer@ypos=0\relax%
+    \hbox{\setbox\beamer@sectionbox=\hbox{\kern1sp}%
+      \ht\beamer@sectionbox=1.875ex%
+      \dp\beamer@sectionbox=0.75ex%
+        \hskip-1.875ex plus-1fill%
+        \global\beamer@section@min@dim\z@
+        \dohead%
+        \beamer@section@set@min@width
+      \box\beamer@sectionbox\hfil\hskip.3cm}%
+  }}}
+
+\defbeamertemplate*{headline}{udpsmoothinfo}
+{%
+  \leavevmode%
+  \newdimen\framewidth
+  \framewidth=\paperwidth \advance\framewidth by -10pt
+  \hbox{%
+  \ifnum\insertframenumber>0\relax%remove it for the title page (this will have problems when the colors are different from the headline and the front page)
+  \begin{beamercolorbox}[wd=10pt,ht=2.65ex,dp=1.5ex,right]{square}%
+  \end{beamercolorbox}%
+  \fi%
+  \begin{beamercolorbox}[wd=.5\framewidth,ht=2.65ex,dp=1.5ex,right]{section in head/foot}%
+    \usebeamerfont{section in head/foot}\insertsubsectionhead\hspace*{2ex}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.5\framewidth,ht=2.65ex,dp=1.5ex,left]{subsection in head/foot}%
+    \usebeamerfont{subsection in head/foot}\hspace*{2ex}\insertminiframescurrentsection
+  \end{beamercolorbox}%
+  }%
+  \vskip0pt%
+}
+
+\RequirePackage[many]{tcolorbox}
+\defbeamertemplate*{frametitle}{udpsmoothinfo}
+{%
+  \nointerlineskip%
+  \hbox{\hspace{-28.5pt}%
+    \usebeamercolor{square}%
+    \begin{tcolorbox}[
+      enhanced,
+      boxrule=10pt,
+      colframe=fg,
+      arc=0pt,
+      outer arc=0pt,
+      colback=frametitle.bg,
+      colupper=frametitle.fg,
+      width=\paperwidth,
+      toprule=0pt,
+      bottomrule=0pt,
+      rightrule=0pt,
+      left=5pt,
+      top=0pt,
+      bottom=0pt,
+    ]%
+    {\usebeamercolor{frametitle}\usebeamerfont*{frametitle}\strut\insertframetitle\strut}
+    \ifx\insertframesubtitle\@empty%
+      \strut\par%
+    \else%
+     \par{\usebeamerfont*{framesubtitle}{\usebeamercolor[fg]{framesubtitle}\insertframesubtitle}\par}%
+    \fi
+  \end{tcolorbox}%
+  }
+  \nointerlineskip
+}
+
+\mode
+<all>
